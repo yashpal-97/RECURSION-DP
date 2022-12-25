@@ -1,0 +1,45 @@
+#include<bits/stdc++.h>
+//yashpal
+//PRINTING ONLY ONE SEQUENCE WITH SUM 
+#define ll long long
+#define input for(int i=0;i<n;i++){int x;cin>>x;v.push_back(x);}
+using namespace std;
+bool f(int idx,vector<int>&v,vector<int>&ds,int target,int sum){
+if(idx==v.size()){
+    if(target==sum){
+        for(auto &i:ds){
+            cout<<i<<" ";
+        }
+        cout<<endl;
+        return true;
+    }
+    else return false;
+}
+
+ds.push_back(v[idx]);
+sum+=v[idx];
+if(f(idx+1,v,ds,target,sum)){
+    return true;
+}
+sum-=v[idx];
+ds.pop_back();
+if(f(idx+1,v,ds,target,sum)){
+    return true;
+}
+return false;
+
+}
+int main()
+{
+
+
+    int n;cin>>n;int target;cin>>target;
+    vector<int>v;input;
+
+    vector<int>ds;
+    f(0,v,ds,target,0);
+
+    
+
+    return 0;
+}
