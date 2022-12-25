@@ -1,0 +1,49 @@
+//TIME COMPLEXITYV-------O(2^N * N)
+//SPACE COMPLEXITY------O(N) RECURSION STACK MEMORY
+
+#include<bits/stdc++.h>
+//yashpal
+#define ll long long
+#define input for(int i=0;i<n;i++){int x;cin>>x;v.push_back(x);}
+using namespace std;
+
+void f(int idx,vector<int>&v,vector<int>&ds,int target,int sum){
+if(idx==v.size()){
+if(target==sum){
+    for(auto &i:ds){
+  cout<<i<<" ";
+    }
+ cout<<endl;
+}
+    return;
+
+}
+
+
+ds.push_back(v[idx]);
+sum+=v[idx];
+f(idx+1,v,ds,target,sum);// TAKE
+
+sum-=v[idx];
+ds.pop_back();
+f(idx+1,v,ds,target,sum);//NOT TAKE
+
+}
+
+int main()
+{
+ios_base :: sync_with_stdio(false);
+cin.tie(NULL);
+cout.tie(NULL);
+    int n;cin>>n;int target;cin>>target;
+
+ vector<int>v;input;
+
+vector<int>ds;
+
+
+//void return
+f(0,v,ds,target,0);
+
+    return 0;
+}
