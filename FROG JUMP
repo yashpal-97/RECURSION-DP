@@ -1,0 +1,173 @@
+///--------------------https://www.codingninjas.com/codestudio/problems/frog-jump_3621012?source=youtube&campaign=striver_dp_videos&utm_source=youtube&utm_medium=affiliate&utm_campaign=striver_dp_videos&leftPanelTab=0----------//
+
+//-----------------RECURSION--------------------------------------//
+//---TIME COMPLEXITY==O(2^N)----SPACE COMPLEXITY==O(N)--------------//
+
+#include<bits/stdc++.h>
+//yashpal
+#define ll long long
+#define input for(int i=0;i<n;i++){int x;cin>>x;v.push_back(x);}
+using namespace std;
+int f(int idx,vector<int>&v){
+    if(idx==0){
+        return 0;
+    }
+    int twostep=INT_MAX;
+    int onestep=abs(v[idx]-v[idx-1])+f(idx-1,v);
+    if(idx>=2){
+     twostep=abs(v[idx]-v[idx-2])+f(idx-2,v);
+    }
+    return min(onestep,twostep);
+}
+int main()
+{
+int n;cin>>n;
+vector<int>v;input;
+cout<<f(n-1,v);
+    
+    return 0;
+}
+
+//-------------------------------MEMOIZATION-------------------------//
+//----TIME COMPLEXITY==O(N)--SPACE COMPLEXITY==O(N)+O(N)------------//
+
+#include<bits/stdc++.h>
+//yashpal
+#define ll long long
+#define input for(int i=0;i<n;i++){int x;cin>>x;v.push_back(x);}
+using namespace std;
+int f(int idx,vector<int>&v,vector<int>&dp){
+    if(idx==0){
+        return 0;
+    }
+    if(dp[idx]!=-1){
+        return dp[idx];
+    }
+    int twostep=INT_MAX;
+    int onestep=abs(v[idx]-v[idx-1])+f(idx-1,v,dp);
+    if(idx>=2){
+     twostep=abs(v[idx]-v[idx-2])+f(idx-2,v,dp);
+    }
+    return dp[idx]=min(onestep,twostep);
+}
+int main()
+{
+int n;cin>>n;
+vector<int>v;input;
+vector<int>dp(n+1,-1);
+cout<<f(n-1,v,dp);
+    
+    return 0;
+}
+//--------------------------TABULATION-----------------//
+//----------TIME COMPLEXITY==O(N)------SPACE COMPLEXITY==O(N)--------//
+#include<bits/stdc++.h>
+//yashpal
+#define ll long long
+#define input for(int i=0;i<n;i++){int x;cin>>x;v.push_back(x);}
+using namespace std;
+
+int main()
+{
+int n;cin>>n;
+vector<int>v;input;
+vector<int>dp(n+1,-1);
+dp[0]=0;
+for(int idx=1;idx<n;idx++){
+       int onestep=abs(v[idx]-v[idx-1])+dp[idx-1];
+       int twostep=INT_MAX;
+       if(idx>=2){
+          twostep=abs(v[idx]-v[idx-2])+dp[idx-2];
+       }
+dp[idx]=min(onestep,twostep);
+}
+    cout<<dp[n-1]<<endl;
+    return 0;
+}
+
+//---------------------------------SPACE OPTIMISATION------------------------------------//
+//------TIME COMPLEXITY==O(N)-----------------------------SPACE COMPLEXITY=O(1)--------------------//
+
+#include<bits/stdc++.h>
+//yashpal
+#define ll long long
+#define input for(int i=0;i<n;i++){int x;cin>>x;v.push_back(x);}
+using namespace std;
+
+int main()
+{
+int n;cin>>n;
+vector<int>v;input;
+
+int prev1=0,prev2=0;
+for(int idx=1;idx<n;idx++){
+       int onestep=abs(v[idx]-v[idx-1])+prev1;
+       int twostep=INT_MAX;
+       if(idx>=2){
+          twostep=abs(v[idx]-v[idx-2])+prev2;
+       }
+int curr=min(onestep,twostep);
+prev2=prev1;
+prev1=curr;
+}
+    cout<<prev1<<endl;
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
