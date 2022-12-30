@@ -1,0 +1,67 @@
+
+// EXTENTION OF HOUSE ROBBER PROBLEM----------------------------------------------------------------//
+//------------TC=O(N)------SC=O(N)-----------//
+
+#include <bits/stdc++.h>
+// yashpal
+#define int long long
+#define input                   \
+    for (int i = 0; i < n; i++) \
+    {                           \
+        int x;                  \
+        cin >> x;               \
+        v.push_back(x);         \
+    }
+using namespace std;
+
+int spaceoptimisedofHouseRobber(vector<int> &v)
+{
+    int prev1 = v[0];
+    int prev2 = 0;
+    for (int idx = 1; idx < v.size(); idx++)
+    {
+        int left = v[idx];
+        if (idx > 1)
+        {
+            left += prev2;
+        }
+        int right = prev2;
+        int curr = max(left, right);
+        prev2 = prev1;
+        prev1 = curr;
+    }
+    return prev1;
+}
+
+signed main()
+{
+    ios_base ::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    int n;
+    cin >> n;
+    vector<int> v;
+    input;
+    vector<int> temp1, temp2;
+    for (int i = 0; i < n; i++)
+    {
+        if (i != 0)
+        {
+            temp1.push_back(v[i]);
+        }
+        if (i != (n - 1))
+        {
+            temp2.push_back(v[i]);
+        }
+    }
+    if (n == 1)
+    {
+        cout << v[0] << endl;
+    }
+    else
+    {
+        cout << max(spaceoptimisedofHouseRobber(temp1), spaceoptimisedofHouseRobber(temp2)) << endl;
+    }
+
+    return 0;
+}
