@@ -1,0 +1,175 @@
+//YOU ARE SUPPOSED TO RETURN THE MAXIMUM SUM OF THE SUBSEQUENCE WITH THE CONSTRAINTS THAT NO TWO ELEMENTS ARE ADJACENT IN THE GIVEN ARRY//
+
+
+
+//--------------RECURSION-------------------//
+//--TC==O(2^N)--SC=O(N)---//
+
+
+#include<bits/stdc++.h>
+//yashpal
+#define ll long long
+#define input for(int i=0;i<n;i++){int x;cin>>x;v.push_back(x);}
+using namespace std;
+ll f(ll idx,vector<ll>&v){
+if(idx==0){
+    return v[idx];
+}
+if(idx<0){
+    return 0;
+}
+ll left=INT_MIN,right=INT_MIN;
+left=f(idx-1,v);
+if(idx>1){
+    right=f(idx-2,v)+v[idx];
+}
+return max(left,right);
+}
+int main()
+{
+ll n;
+cin>>n;
+vector<ll>v;
+input;
+cout<<f(n-1,v)<<endl;
+    return 0;
+}
+
+
+
+
+
+//-------------------------------------------------MEMOIZATION-----------------------------------------------------------------------//
+//------TC==O(N)---SC==O(N)+O(N)-------//
+
+
+#include <bits/stdc++.h>
+// yashpal
+#define ll long long
+#define input                   \
+    for (int i = 0; i < n; i++) \
+    {                           \
+        int x;                  \
+        cin >> x;               \
+        v.push_back(x);         \
+    }
+using namespace std;
+ll f(ll idx, vector<ll> &v, vector<ll> &dp)
+{
+    if (idx == 0)
+    {
+        return v[idx];
+    }
+    if (idx < 0)
+    {
+        return 0;
+    }
+    if (dp[idx] != -1)
+    {
+        return dp[idx];
+    }
+    ll left = INT_MIN, right = INT_MIN;
+    left = f(idx - 1, v, dp);
+    if (idx > 1)
+    {
+        right = f(idx - 2, v, dp) + v[idx];
+    }
+    return dp[idx] = max(left, right);
+}
+int main()
+{
+    ll n;
+    cin >> n;
+    vector<ll> v;
+    vector<ll> dp(n + 1, -1);
+    input;
+    cout << f(n - 1, v, dp) << endl;
+    return 0;
+}
+
+
+//-------------------------TABULATION--------------------------//
+//---TC==O(N)-------SC==O(N)------------------------//
+
+#include <bits/stdc++.h>
+// yashpal
+#define ll long long
+#define input                   \
+    for (int i = 0; i < n; i++) \
+    {                           \
+        int x;                  \
+        cin >> x;               \
+        v.push_back(x);         \
+    }
+using namespace std;
+
+int main()
+{
+    ll n;
+    cin >> n;
+    vector<ll> v ;  input;
+    vector<ll> dp(n, -1);
+    
+dp[0]=v[0];
+for(int idx=1;idx<n;idx++){
+      ll left = INT_MIN, right = INT_MIN;
+    left = dp[idx-1];
+    if (idx > 1)
+    {
+        right = dp[idx-2] + v[idx];
+    }
+    dp[idx]=max(left,right);
+}
+
+cout<<dp[n-1]<<endl;
+
+   return 0;
+}
+
+
+//-------------------SPACE-OPTIMISATION-------------------//
+//---TC==O(N)----------SC==O(1)------------//
+
+#include <bits/stdc++.h>
+// yashpal
+#define ll long long
+#define input                   \
+    for (int i = 0; i < n; i++) \
+    {                           \
+        int x;                  \
+        cin >> x;               \
+        v.push_back(x);         \
+    }
+using namespace std;
+
+int main()
+{
+    ll n;
+    cin >> n;
+    vector<ll> v ;  
+    input;
+  
+ll prev1=v[0],prev2=v[0];
+for(ll idx=1;idx<n;idx++){
+      ll left = INT_MIN, right = INT_MIN;
+    left = prev1;
+    if (idx > 1)
+    {
+        right = prev2+ v[idx];
+    }
+ll curr=max(left,right);
+prev2=prev1;
+prev1=curr;
+}
+
+cout<<prev1<<endl;
+
+    return 0;
+}
+
+
+
+
+
+
+
