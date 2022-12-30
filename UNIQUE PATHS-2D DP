@@ -1,0 +1,211 @@
+// COUNT THE TOTAL NUMBER OF WAY TO TRAVERSE FROM M[0][0] TO M[n-1][m-1]
+
+//----------------RECURSION-----------------------//
+//--TC=O(2^N)------------------SC=O(N)----//
+
+#include<bits/stdc++.h>
+//yashpal
+#define ll long long
+#define input for(ll i=0;i<n;i++){ll x;cin>>x;dp.push_back(x);}
+using namespace std;
+
+int f(int i,int j,vector<vector<int>>&dp){
+    if(i==0&&j==0){
+        return 1;
+    }
+    if(i<0||j<0){
+        return 0;
+    }
+    int left=f(i-1,j,dp);
+    int right=f(i,j-1,dp);
+
+    return left+right;
+}
+
+signed main()
+{
+ios_base :: sync_with_stdio(false);
+cin.tie(NULL);
+cout.tie(NULL);
+    
+    int n;cin>>n;
+    int m;cin>>m;
+   vector<vector<int>>dp(n,vector<int>(m,-1));
+    cout<<f(n-1,m-1,dp)<<endl;
+
+return 0;
+}
+
+
+//-----------------------------MEMOIZATION--------//
+//----------TC=O(N*M)---SC=O(N*M)+O(N)----------------------//
+#include<bits/stdc++.h>
+//yashpal
+#define ll long long
+#define input for(ll i=0;i<n;i++){ll x;cin>>x;dp.push_back(x);}
+using namespace std;
+
+int f(int i,int j,vector<vector<int>>&dp){
+    if(i==0&&j==0){
+        return 1;
+    }
+    if(i<0||j<0){
+        return 0;
+    }
+    if(dp[i][j]!=-1){
+        return dp[i][j];
+    }
+    int left=f(i-1,j,dp);
+    int right=f(i,j-1,dp);
+
+    return dp[i][j]=left+right;
+}
+
+signed main()
+{
+ios_base :: sync_with_stdio(false);
+cin.tie(NULL);
+cout.tie(NULL);
+    
+    int n;cin>>n;
+    int m;cin>>m;
+   vector<vector<int>>dp(n,vector<int>(m,-1));
+    cout<<f(n-1,m-1,dp)<<endl;
+
+return 0;
+}
+
+//---------------------------TABULATION----------------------//
+//-----TC=O(N*M)-----SC=O(N*M)-----------------------------------------//
+
+#include<bits/stdc++.h>
+//yashpal
+#define ll long long
+#define input for(ll i=0;i<n;i++){ll x;cin>>x;dp.push_back(x);}
+using namespace std;
+
+int f(int i,int j,vector<vector<int>>&dp){
+    if(i==0&&j==0){
+        return 1;
+    }
+    if(i<0||j<0){
+        return 0;
+    }
+    if(dp[i][j]!=-1){
+        return dp[i][j];
+    }
+    int left=f(i-1,j,dp);
+    int right=f(i,j-1,dp);
+
+    return dp[i][j]=left+right;
+}
+
+signed main()
+{
+ios_base :: sync_with_stdio(false);
+cin.tie(NULL);
+cout.tie(NULL);
+    
+    int n;cin>>n;
+    int m;cin>>m;
+   vector<vector<int>>dp(n,vector<int>(m,0));
+    
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            if(i==0&&j==0){
+                dp[0][0]=1;
+            }
+else{
+       int left=0,right=0;
+       if(i>0){     
+ left=dp[i-1][j];
+       }
+       if(j>0){
+ right=dp[i][j-1];
+       }
+
+dp[i][j]=left+right;
+}
+        }
+    }
+cout<<dp[n-1][m-1]<<endl;
+return 0;
+}
+
+
+//---------------------------SPACE COMPLEXITY-----------------------------------//
+//---TC=O(N*M)------SC=O(M)------------------//
+
+#include <bits/stdc++.h>
+// yashpal
+#define ll long long
+#define input                  \
+    for (ll i = 0; i < n; i++) \
+    {                          \
+        ll x;                  \
+        cin >> x;              \
+        dp.push_back(x);       \
+    }
+using namespace std;
+
+int f(int i, int j, vector<vector<int>> &dp)
+{
+    if (i == 0 && j == 0)
+    {
+        return 1;
+    }
+    if (i < 0 || j < 0)
+    {
+        return 0;
+    }
+    if (dp[i][j] != -1)
+    {
+        return dp[i][j];
+    }
+    int left = f(i - 1, j, dp);
+    int right = f(i, j - 1, dp);
+
+    return dp[i][j] = left + right;
+}
+
+signed main()
+{
+    ios_base ::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    int n;
+    cin >> n;
+    int m;
+    cin >> m;
+    vector<int> prev(m, 0);
+
+    for (int i = 0; i < n; i++)
+    {
+        vector<int> temp(m, 0);
+        for (int j = 0; j < m; j++)
+        {
+            if (i == 0 && j == 0)
+            {
+                temp[j] = 1;
+            }
+            else
+            {
+                int left = 0, right = 0;
+                if (i > 0)
+                {
+                    left = prev[j];
+                }
+                if (j > 0)
+                {
+                    right = temp[j - 1];
+                }
+
+                temp[j] = left + right;
+            }
+        }
+        prev = temp;
+    }
+    cout << prev[m - 1] << endl;
+    return 0;
+}
