@@ -1,0 +1,123 @@
+//-----------------TABULATION--------------------------//
+//--TC==O(N*TARGET)--------------SC==O(N*TARGET)------//
+ #include<bits/stdc++.h>
+ //yashpal
+ #define ll long long
+ #define input for(ll i=0;i<n;i++){ll x;cin>>x;v.push_back(x);}
+ using namespace std;
+ signed main()
+ {
+ ll n,target;cin>>n>>target;
+ vector<ll>v;
+ input;
+ vector<vector<bool>>dp(n,vector<bool>(target+1,0));
+ for(ll i=0;i<n;i++){
+     dp[i][0]=1;
+ }
+ dp[0][v[0]]=1;  
+     for(ll idx=1;idx<n;idx++){
+         for(ll i=1;i<=target;i++){
+             bool take=false;
+              bool nottake=dp[idx-1][i];
+      if(i>=v[idx]){
+         take=dp[idx-1][i-v[idx]];
+      }
+      dp[idx][i]=take|nottake;
+         }
+     }
+     cout<<dp[n-1][target]<<endl;
+     return 0;
+ 
+ }
+ 
+ //-------------------------MEMOIZATION---------------------------//
+ //----TC==O(N*TARGET)---------------------O(N*TAGET)+O(N)---------//
+ #include<bits/stdc++.h>
+//yashpal
+#define ll long long
+#define input for(ll i=0;i<n;i++){ll x;cin>>x;v.push_back(x);}
+using namespace std;
+bool f(ll idx,ll target,vector<ll>&v,vector<vector<ll>>&dp){
+    if(target==0){
+        return 1;
+    }
+    if(idx==0){
+        return (target==v[0]);
+    }
+    if(dp[idx][target]!=-1){
+        return dp[idx][target];
+    }
+bool take=false;
+     if(target>=v[idx]){
+        take=f(idx-1,target-v[idx],v,dp);
+     }
+     bool nottake=f(idx-1,target,v,dp);
+
+    return dp[idx][target]=take|nottake;
+}
+signed main()
+{
+ll n,target;cin>>n>>target;
+vector<ll>v;
+vector<vector<ll>>dp(n,vector<ll>(target+1,-1));
+input;
+
+cout<<f(n-1,target,v,dp)<<endl;
+    
+    return 0;
+}
+
+
+//--------------------------SPACE OPTIMISATION-----------------//
+//----------TC==O(N*TARGET)---------------------SC==O(TARGET)--//
+
+#include<bits/stdc++.h>
+//yashpal
+#define ll long long
+#define input for(ll i=0;i<n;i++){ll x;cin>>x;v.push_back(x);}
+using namespace std;
+signed main()
+{
+ll n,target;cin>>n>>target;
+vector<ll>v;
+input;
+vector<bool>prev(target+1,0),curr(target+1,0);
+curr[0]=prev[0]=true;
+ 
+    prev[v[0]]=true;
+
+    for(ll idx=1;idx<n;idx++){
+        for(ll i=1;i<=target;i++){
+            bool take=false;
+             bool nottake=prev[i];
+     if(i>=v[idx]){
+        take=prev[i-v[idx]];
+     }
+    
+     curr[i]=take|nottake;
+        }
+        prev=curr;
+    }
+    cout<<prev[target]<<endl;
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
