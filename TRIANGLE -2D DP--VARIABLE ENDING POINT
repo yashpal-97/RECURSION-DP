@@ -1,0 +1,123 @@
+// THE TRIANGLE ARRAY WILL HAVE N ROWS AND THE I-TH ROW, WHERE 0<=I<N WILL HAVE I+1 ELEMENTS
+
+//---------------------RECURSION------------------//
+
+/* 
+    Time Complexity: O(2 ^ N)
+    Space Complexity: O(2 ^ N)
+
+    Where  N is the number of row in triangle array.
+*/
+
+int solve(int i, int j, vector<vector<int>> &triangle)
+{
+    // Base case
+    if (i >= triangle.size() or j > i)
+    {
+        return 0;
+    }
+
+    // Recursive call.
+    return min(solve(i + 1, j, triangle), solve(i + 1, j + 1, triangle)) + triangle[i][j];
+}
+
+int minimumPathSum(vector<vector<int>> triangle, int n)
+{
+    return solve(0, 0, triangle);
+}
+
+//--------------------MEMOIZATION--------------------------//
+/* 
+    Time Complexity: O(N * N)
+    Space Complexity: O(N * N)+PATHLENGTH
+
+    Where N is the number of row in triangle array.
+*/
+
+int solve(int i, int j, vector<vector<int>> &triangle, vector<vector<int>> &dp)
+{
+    // base case
+    if (i >= triangle.size() or j > i)
+    {
+        return 0;
+    }
+
+    // Check if result is already stored.
+    if (dp[i][j] != -1)
+    {
+        return dp[i][j];
+    }
+
+    // If result is not stored then calculate and fill the dp array using solve.
+    return dp[i][j] = min(solve(i + 1, j, triangle, dp), solve(i + 1, j + 1, triangle, dp)) + triangle[i][j];
+}
+
+int minimumPathSum(vector<vector<int>>& triangle, int n)
+{
+    // Dp array to store results.
+    vector<vector<int>> dp(n + 1, vector<int>(n + 1, -1));
+
+    return solve(0, 0, triangle, dp);
+}
+
+//--------------------------TABULATION--------------------------------//
+/* 
+    Time Complexity: O(N * N)
+    Space Complexity: O(N * N)
+
+    Where N is the number of row in triangle array.
+*/
+
+int minimumPathSum(vector<vector<int>> &triangle, int n)
+{
+    vector<vector<int>> dp(n, vector<int>(n, 0));
+    for (int i = 0; i < n; i++)
+    {
+        dp[n - 1][i] = triangle[n - 1][i];
+    }
+
+    // Filling the dp in bottom up fashion.
+    for (int i = n - 2; i >= 0; i--)
+    {
+        for (int j = 0; j <= i; j++)
+        {
+            dp[i][j] = min(dp[i + 1][j], dp[i + 1][j + 1]) + triangle[i][j];
+        }
+    }
+    return dp[0][0];
+}
+
+//-------------------------------------SPACE OPTIMIZATION--------------------------//
+/* 
+    Time Complexity: O(N * N)
+    Space Complexity: O(N)
+
+    Where 'N' is the number of row in triangle array.
+*/
+
+int minimumPathSum(vector<vector<int>> &triangle, int n)
+{
+    vector<int> dp(n, 0);
+    for (int i = 0; i < n; i++)
+    {
+        dp[i] = triangle[n - 1][i];
+    }
+    for (int i = n - 2; i >= 0; i--)
+    {
+        for (int j = 0; j <=i ; j++)
+        {
+            dp[j] = triangle[i][j] + min(dp[j], dp[j + 1]);
+        }
+    }
+    return dp[0];
+}
+
+
+
+
+
+
+
+
+
+
