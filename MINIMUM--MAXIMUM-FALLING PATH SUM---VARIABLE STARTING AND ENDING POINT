@@ -1,0 +1,160 @@
+//-----------------------RECURSION------------------------------//
+//---TC==O(3^(N+M))--------------------SC==O(N+M)----------------//
+
+#include<bits/stdc++.h>
+//yashpal
+#define ll long long
+#define input for(ll i=0;i<n;i++){ll x;cin>>x;v.push_back(x);}
+using namespace std;
+ll f(ll i, ll j,vector<vector<ll>>&v){
+    if(j<0||j>=v[0].size()){
+        return -1e8;
+    }
+    if(i==0){
+        return v[0][j];
+    }
+    ll up=v[i][j]+f(i-1,j,v);
+    ll leftdia=v[i][j]+f(i-1,j-1,v);
+    ll rightdia=v[i][j]+f(i-1,j+1,v);
+    return max(up,max(leftdia,rightdia));
+}
+signed main()
+{
+ll n,m;cin>>n>>m;
+vector<vector<ll>>v(n,vector<ll>(m,0));
+for(ll i=0;i<n;i++){
+    for(ll j=0;j<m;j++){
+        ll x;cin>>x;
+        v[i][j]=x;
+    }
+}
+ll maxi=-1e8;
+for(ll j=0;j<m;j++){
+    maxi=max(maxi,f(n-1,j,v));
+}
+cout<<maxi<<endl;
+
+    return 0;
+
+}
+
+//--------------------MEMOIZATION------------------------------------//
+//----TC==O(N*M)----------------------SC=O(M*N)+O(N)--------------//
+
+#include<bits/stdc++.h>
+//yashpal
+#define ll long long
+#define input for(ll i=0;i<n;i++){ll x;cin>>x;v.push_back(x);}
+using namespace std;
+ll f(ll i,ll j,vector<vector<ll>>&matrix,vector<vector<ll>>&dp){
+   if(j<0||j>=matrix[0].size()){
+       return -1e9;
+   }
+    if(i==0){
+        return matrix[i][j];
+    }
+   
+    if(dp[i][j]!=-1){
+        return dp[i][j];
+    }
+    ll w=-1e8,e=-1e8;
+    ll q=matrix[i][j]+f(i-1,j,matrix,dp);
+    if(j-1>=0){
+     w=matrix[i][j]+f(i-1,j-1,matrix,dp);
+    }
+    if(j+1<=matrix[0].size()){
+     e=matrix[i][j]+f(i-1,j+1,matrix,dp);
+    }
+    
+    return dp[i][j]=max(q,max(w,e));
+}
+signed main()
+{
+ll n,m;cin>>n>>m;
+vector<vector<ll>>v(n,vector<ll>(m,0));
+vector<vector<ll>>dp(n,vector<ll>(m,-1));
+for(ll i=0;i<n;i++){
+    for(ll j=0;j<m;j++){
+        ll x;cin>>x;
+        v[i][j]=x;
+    }
+}
+ll maxi=-1e8;
+for(ll j=0;j<m;j++){
+    maxi=max(maxi,f(n-1,j,v,dp));
+}
+cout<<maxi<<endl;
+
+    return 0;
+
+}
+
+
+//----------------------------TABULATION---------------------------------//
+//------TC==O(N*M)-------------------------------SC==O(N*M)----------//
+#include<bits/stdc++.h>
+//yashpal
+#define ll long long
+#define input for(ll i=0;i<n;i++){ll x;cin>>x;v.push_back(x);}
+using namespace std;
+
+signed main()
+{
+ll n,m;cin>>n>>m;
+vector<vector<ll>>v(n,vector<ll>(m,0));
+vector<vector<ll>>dp(n,vector<ll>(m,-1));
+for(ll i=0;i<n;i++){
+    for(ll j=0;j<m;j++){
+        ll x;cin>>x;
+        v[i][j]=x;
+    }
+}
+ll maxi=-1e8;
+for(ll j=0;j<m;j++){
+    dp[0][j]=v[0][j];
+}
+for(ll i=1;i<n;i++){
+    for(ll j=0;j<m;j++){
+        ll leftdia=v[i][j],rightdia=v[i][j];
+        ll up=v[i][j]+dp[i-1][j];
+
+         //leftdia=v[i][j];
+         if(j-1>=0){leftdia+=dp[i-1][j-1];}
+else{
+    leftdia+=-1e8;
+}
+        // rightdia=v[i][j];
+         if(j+1<m){rightdia+=dp[i-1][j+1];}
+         else{
+            rightdia+= -1e8;
+         }
+
+         dp[i][j]=max(up,max(leftdia,rightdia));
+    }
+}
+for(ll j=0;j<m;j++){
+    maxi=max(maxi,dp[n-1][j]);
+}
+cout<<maxi<<endl;
+
+    return 0;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
