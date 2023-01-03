@@ -1,0 +1,196 @@
+// FIND TTHE PATH FROM TOP LEFT (0,0) TO(N-1,M-1) WHICH MINIMIZES THE SUM OF THE COST OF ALL THE NUMBERS ALONG THE PATH.
+
+//---------------------------------RECURSION----------------------------//
+//-----TC==O(2^(N+M))---------------------------SC==O(N+M)--------------//
+
+#include<bits/stdc++.h>
+//yashpal
+#define ll long long
+#define input for(ll i=0;i<n;i++){ll x;cin>>x;v.push_back(x);}
+using namespace std;
+ll f(ll i,ll j,vector<vector<ll>>&v){
+    if(i==0&&j==0){
+        return v[i][j];
+    }
+    if(i<0||j<0){
+        return 1e9;
+    }
+    ll up=v[i][j]+f(i-1,j,v);
+    ll left=v[i][j]+f(i,j-1,v);
+
+    return min(left,up);
+
+}
+signed main()
+{
+ll n,m;cin>>n>>m;
+vector<vector<ll>>v(n,vector<ll>(m,0));
+for(ll i=0;i<n;i++){
+    for(ll j=0;j<m;j++){
+        ll x;cin>>x;
+        v[i][j]=x;
+    }
+}
+cout<<f(n-1,m-1,v)<<endl;
+
+    return 0;
+}
+
+//-------------------------MEMOIZATION---------------------------------//
+//----TC==O(N*M)---------------------------SC==O(N*M)+O(N+M-2){PATH LENGTH)------------------//
+#include<bits/stdc++.h>
+//yashpal
+#define ll long long
+#define input for(ll i=0;i<n;i++){ll x;cin>>x;v.push_back(x);}
+using namespace std;
+ll f(ll i,ll j,vector<vector<ll>>&v,vector<vector<ll>>&dp){
+    if(i==0&&j==0){
+        return v[i][j];
+    }
+    if(i<0||j<0){
+        return 1e9;
+    }
+    if(dp[i][j]!=-1){
+        return dp[i][j];
+    }
+    ll up=v[i][j]+f(i-1,j,v,dp);
+    ll left=v[i][j]+f(i,j-1,v,dp);
+
+    return min(left,up);
+
+}
+signed main()
+{
+ll n,m;cin>>n>>m;
+vector<vector<ll>>v(n,vector<ll>(m,0));
+vector<vector<ll>>dp(n,vector<ll>(m,-1));
+for(ll i=0;i<n;i++){
+    for(ll j=0;j<m;j++){
+        ll x;cin>>x;
+        v[i][j]=x;
+    }
+}
+cout<<f(n-1,m-1,v,dp)<<endl;
+
+    return 0;
+}
+
+//-------------------------------TABULATION----------------------------//
+//-------TC==O(N*M)---------------------------SC==O(N*M)--------------//
+
+
+#include<bits/stdc++.h>
+//yashpal
+#define ll long long
+#define input for(ll i=0;i<n;i++){ll x;cin>>x;v.push_back(x);}
+using namespace std;
+
+signed main()
+{
+ll n,m;cin>>n>>m;
+vector<vector<ll>>v(n,vector<ll>(m,0));
+vector<vector<ll>>dp(n,vector<ll>(m,-1));
+for(ll i=0;i<n;i++){
+    for(ll j=0;j<m;j++){
+        ll x;cin>>x;
+        v[i][j]=x;
+    }
+}
+// cout<<f(n-1,m-1,v,dp)<<endl;
+dp[0][0]=v[0][0];
+for(ll i=0;i<n;i++){
+    for(ll j=0;j<m;j++){
+        ll left=1e9,up=1e9;
+        if(i==0&&j==0){
+            dp[i][j]=v[i][j];
+        }
+
+       else {
+        if(i>0){
+left=v[i][j]+dp[i-1][j];
+        }
+          if(j>0){
+                up=v[i][j]+dp[i][j-1];
+            }
+            dp[i][j]=min(up,left);
+        }
+        
+    }
+}
+cout<<dp[n-1][m-1]<<endl;
+
+    return 0;
+}
+
+//-------------------------SPACE OPTIMISAZTION----------------------------//
+//------TC==O(N*M)-------------------------------SC==O(1)-----------------//
+
+
+#include<bits/stdc++.h>
+//yashpal
+#define ll long long
+#define input for(ll i=0;i<n;i++){ll x;cin>>x;v.push_back(x);}
+using namespace std;
+
+signed main()
+{
+ll n,m;cin>>n>>m;
+vector<vector<ll>>v(n,vector<ll>(m,0));
+vector<vector<ll>>dp(n,vector<ll>(m,-1));
+for(ll i=0;i<n;i++){
+    for(ll j=0;j<m;j++){
+        ll x;cin>>x;
+        v[i][j]=x;
+    }
+}
+// cout<<f(n-1,m-1,v,dp)<<endl;
+
+for(ll i=n-1;i>=0;i--){
+    for(ll j=m-1;j>=0;j--){
+        if(i==n-1 && j==m-1){
+            continue;
+        }
+        else if(i==n-1){
+            v[i][j]+=v[i][j+1];
+        }
+        else if(j==m-1){
+            v[i][j]+=v[i+1][j];
+        }
+        else{
+            v[i][j]+=min(v[i+1][j],v[i][j+1]);
+        }
+    }
+}
+cout<<v[0][0]<<endl;
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
