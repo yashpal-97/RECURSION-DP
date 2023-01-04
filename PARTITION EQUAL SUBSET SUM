@@ -94,6 +94,50 @@ cout<<dp[n-1][sum/2]<<endl;
     return 0;
 }
 
+//----------------------------------------SPACE OPTIMISATION------------------------//
+//----------TC==O(N*TARGET)---------------------SC==O(TARGET)--//
 
+#include<bits/stdc++.h>
+//yashpal
+#define ll long long
+#define input for(ll i=0;i<n;i++){ll x;cin>>x;v.push_back(x);}
+using namespace std;
+
+signed main()
+{
+ios_base :: sync_with_stdio(false);
+cin.tie(NULL);
+cout.tie(NULL);
+    ll n;cin>>n;
+    vector<ll>v;
+ input;
+    ll sum=0;
+    for(ll i=0;i<n;i++){
+        sum+=v[i];
+    }
+    if(sum&1){
+        cout<<0<<endl;
+    }
+    else{
+            
+vector<bool>prev(sum/2+1,0),curr(sum/2+1,0);
+curr[0]=prev[0]=true;
+prev[v[0]]=true;
+for(ll i=1;i<n;i++){
+    for(ll j=1;j<=sum/2;j++){
+              bool take=false;
+             bool nottake=prev[j];
+     if(j>=v[i]){
+        take=prev[j-v[i]];
+     }
+    
+     curr[j]=take|nottake;
+    }
+    prev=curr;
+}
+cout<<prev[sum/2]<<endl;
+    }
+    return 0;
+}
 
 
