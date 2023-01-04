@@ -1,0 +1,58 @@
+// YOUR TASK IS TO FIND IF WE CAN PARTITION THE GIVEN ARRAY INTO TWO SUBSETS SUCH THAT
+SUM OF THE ELEMENTS IN BOTH SUBSETS ARE EQUAL
+
+//-------------------------------MEMOIZATION+RECURSION------------------------------//
+//---RTC==O(2^N)--RSC==O(N)------MTC==O(N*SUM)----MSC==O(N*SUM)+O(N)---------------//
+
+#include<bits/stdc++.h>
+//yashpal
+#define ll long long
+#define input for(ll i=0;i<n;i++){ll x;cin>>x;v.push_back(x);}
+using namespace std;
+ll f(ll idx,vector<ll>&v,ll target,vector<vector<ll>>&dp){
+    if(idx==0){
+        return v[idx]==target;
+    }
+    if(target==0){
+        return 1;
+    }
+if(dp[idx][target]!=-1){
+    return dp[idx][target];
+}
+ll take=false;
+if(target>=v[idx]){
+     take=f(idx-1,v,target-v[idx],dp);
+}
+    ll nottake=f(idx-1,v,target,dp);
+return dp[idx][target]=take|nottake;
+}
+signed main()
+{
+ios_base :: sync_with_stdio(false);
+cin.tie(NULL);
+cout.tie(NULL);
+    ll n;cin>>n;
+    vector<ll>v;
+
+    input;
+    ll sum=0;
+    for(ll i=0;i<n;i++){
+        sum+=v[i];
+    }
+    if(sum&1){
+        cout<<0<<endl;
+    }
+    else{
+            vector<vector<ll>>dp(n,vector<ll>((sum/2)+1,-1));
+cout<<f(n-1,v,sum/2,dp)<<endl;
+    }
+    return 0;
+}
+
+//---------------------------TABULATION-------------------------------//
+
+
+
+
+
+
