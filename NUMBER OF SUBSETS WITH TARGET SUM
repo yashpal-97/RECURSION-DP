@@ -1,0 +1,97 @@
+// COUNT THE NUMBER OF SUBSETS WITH SUM TAR
+
+//---------------------------------RECURSION----------------------------------//
+//-----------TC==O(2^N)--------------------------SC=O(N)----------------------//
+#include <bits/stdc++.h> 
+int f(int idx,vector<int>&num,int tar){
+       if(tar==0){
+       return 1;
+       }
+    if(idx==0){
+        if(tar==num[idx]){
+       return 1;
+        }
+          else{
+              return 0;
+          }
+      }
+    int take=0;
+    if(num[idx]<=tar){
+     take=f(idx-1,num,tar-num[idx]);
+    }
+    int nottake=f(idx-1,num,tar);
+    return take+nottake;
+}
+int findWays(vector<int> &num, int tar)
+{
+    // Write your code here.
+    return f(num.size()-1,num,tar);
+}
+
+//----------------------------MEMOIZATION----------------------------------------//
+//----TC==O(N*tar)---------------------------sc==o(N*TAR)+O(N)-------------------//
+
+#include <bits/stdc++.h> 
+int f(int idx,vector<int>&num,int tar,  vector<vector<int>>&dp){
+       if(tar==0){
+       return 1;
+       }
+    if(idx==0){
+        if(tar==num[idx]){
+       return 1;
+        }
+          else{
+              return 0;
+          }
+      }
+    if(dp[idx][tar]!=-1){
+        return dp[idx][tar];
+    }
+    int take=0;
+    if(num[idx]<=tar){
+     take=f(idx-1,num,tar-num[idx],dp);
+    }
+    int nottake=f(idx-1,num,tar,dp);
+    return dp[idx][tar]=take+nottake;
+}
+int findWays(vector<int> &num, int tar)
+{
+    // Write your code here.
+    vector<vector<int>>dp(num.size(),vector<int>(tar+1,-1));
+    return f(num.size()-1,num,tar,dp);
+}
+
+
+//---------------------------------TABULATION----------------------------------//
+//----------TC==O(N*TAR)---------------------------SC==O(N*TAR)----------------//
+
+#include <bits/stdc++.h> 
+
+int findWays(vector<int> &num, int tar)
+{
+    // Write your code here.
+    vector<vector<int>>dp(num.size(),vector<int>(tar+1,0));
+    
+    for(int i=0;i<num.size();i++){
+        dp[i][0]=1;
+    }
+    if(num[0]<=tar){
+    dp[0][num[0]]=1;
+    }
+    for(int i=1;i<num.size();i++){
+        for(int j=1;j<=tar;j++){
+             int take=0;
+    if(num[i]<=j){
+     take=dp[i-1][j-num[i]];
+    }
+    int nottake=dp[i-1][j];
+            dp[i][j]=take+nottake;
+        }
+    }
+    return dp[num.size()-1][tar];
+}
+
+
+
+
+
