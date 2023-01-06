@@ -1,4 +1,5 @@
 // COUNT THE NUMBER OF SUBSETS WITH SUM TAR
+//-------------WHEN NOT TO INCLUDE ZEROS--------------------// 
 
 //---------------------------------RECURSION----------------------------------//
 //-----------TC==O(2^N)--------------------------SC=O(N)----------------------//
@@ -92,6 +93,31 @@ int findWays(vector<int> &num, int tar)
     return dp[num.size()-1][tar];
 }
 
+//----------------------------TO INCLUDE ZERO AS AN ELEMENT-----------------------//
+#include <bits/stdc++.h> 
+int f(int idx,vector<int>&num,int tar,  vector<vector<int>>&dp){
+    if(idx==0){
+        if(tar==0&&num[0]==0)return 2;
+        if(tar==0||tar==num[0])return 1;
+        return 0;
+       }
+    if(dp[idx][tar]!=-1){
+        return dp[idx][tar];
+    }
+        int nottake=f(idx-1,num,tar,dp);
+    int take=0;
+    if(num[idx]<=tar){
+     take=f(idx-1,num,tar-num[idx],dp);
+    }
+
+    return dp[idx][tar]=take+nottake;
+}
+int findWays(vector<int> &num, int tar)
+{
+    // Write your code here.
+    vector<vector<int>>dp(num.size(),vector<int>(tar+1,-1));
+    return f(num.size()-1,num,tar,dp);
+}
 
 
 
