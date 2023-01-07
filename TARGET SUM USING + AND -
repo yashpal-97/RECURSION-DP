@@ -1,0 +1,38 @@
+// YOUR TASK IS TO BUILD AN EXPRESSION OUT OF AN ARRAY BY ADDING ONE OF THE SYMBOLS + OR - BEFORE EACH INTEGER
+
+// DERIVATION OF PARTITION SUBSET WITH GIVEN DIFFERENCE
+
+#include <bits/stdc++.h> 
+int findWays(vector<int> &num, int tar)
+{
+    // Write your code here.
+    int n=num.size();
+    vector<vector<int>>dp(num.size(),vector<int>(tar+1,0));
+   if(num[0]==0)dp[0][0]=2;
+    else dp[0][0]=1;
+    
+    if(num[0]!=0&&num[0]<=tar) dp[0][num[0]]=1;
+    for(int idx=1;idx<n;idx++){
+        for(int sum=0;sum<=tar;sum++){
+            int nottake=dp[idx-1][sum];
+            int take=0;
+            if(num[idx]<=sum) take=dp[idx-1][sum-num[idx]];
+            dp[idx][sum]=(nottake+take)%1000000007;
+        }
+    }
+    return dp[n-1][tar];
+    }
+int countPartitions(int n, int d, vector<int> &arr) {
+    int  totsum=0;
+    for(int i=0;i<n;i++){
+        totsum+=arr[i];
+    }
+    if(totsum-d<0||(totsum-d)&1) return false;
+    
+    return findWays(arr,(totsum-d)/2);
+    
+}
+int targetSum(int n, int target, vector<int>& arr) {
+    // Write your code here.
+    return countPartitions(n,target,arr);
+}
