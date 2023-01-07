@@ -28,3 +28,44 @@ long countWaysToMakeChange(int *denominations, int n, int value)
         return 0;
     }
 }
+
+//--------------------------------------------MEMOIZATION-----------------------------//
+//----------------TC==O(N*VALUE)-------------------------------SC==O(N*VALUE)+O(N)----//
+#include<bits/stdc++.h>
+
+long f(int idx,int value,int *denominations,vector<vector<long>>&dp){
+    if(idx==0){
+        if(value%denominations[0]==0){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    }
+    if(dp[idx][value]!=-1){
+        return dp[idx][value];
+    }
+    long nottake=f(idx-1,value,denominations,dp);
+    long take=0;
+    if(value>=denominations[idx]){
+        take=f(idx,value-denominations[idx],denominations,dp);
+    }
+    return dp[idx][value]=take+nottake;
+}
+
+long countWaysToMakeChange(int *denominations, int n, int value)
+{
+    //Write your code here
+    vector<vector<long>>dp(n,vector<long>(value+1,-1));
+    if( f(n-1,value,denominations,dp)>0){
+   return f(n-1,value,denominations,dp);
+    }
+    else{
+        return 0;
+    }
+}
+
+
+
+
+
