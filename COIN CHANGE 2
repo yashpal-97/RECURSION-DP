@@ -1,0 +1,30 @@
+//---------------------RECURSION--------------------------------//
+//---------TC==EXPONENTIAL------------SC==TARGET----------------/
+
+long f(int idx,int value,int *denominations){
+    if(idx==0){
+        if(value%denominations[0]==0){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    }
+    long nottake=f(idx-1,value,denominations);
+    long take=0;
+    if(value>=denominations[idx]){
+        take=f(idx,value-denominations[idx],denominations);
+    }
+    return take+nottake;
+}
+
+long countWaysToMakeChange(int *denominations, int n, int value)
+{
+    //Write your code here
+    if( f(n-1,value,denominations)>0){
+   return f(n-1,value,denominations);
+    }
+    else{
+        return 0;
+    }
+}
