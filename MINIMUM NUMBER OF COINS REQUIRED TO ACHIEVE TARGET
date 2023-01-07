@@ -32,4 +32,42 @@ int minimumElements(vector<int> &num, int x)
     }
 }
 
+//------------------------MEMOIZATION-----------------------//
+//----TC==O(N*TARGET)------------------sc==O(N*T) + O(N)----//
+
+#include <bits/stdc++.h> 
+int f(int idx,vector<int>&num,int target, vector<vector<int>>&dp){
+    if(idx==0){
+        if(target%num[0]==0){
+            return target/num[idx];
+        }
+        else{
+            int maxi=1e9;
+            return maxi;
+        }
+    }
+    if(dp[idx][target]!=-1){
+        return dp[idx][target];
+    }
+    int nottake=0+f(idx-1,num,target,dp);
+    int take=INT_MAX;
+    if(target>=num[idx]){
+        take=1+f(idx,num,target-num[idx],dp);
+    }
+    return dp[idx][target]=min(take,nottake);
+}
+int minimumElements(vector<int> &num, int x)
+{
+    // Write your code here.
+      int n=num.size();
+    vector<vector<int>>dp(n,vector<int>(x+1,-1));
+  
+    int ans= f(n-1,num,x,dp);
+    if(ans>=1e9){
+        return -1;
+    }
+    else{
+        return ans;
+    }
+}
 
