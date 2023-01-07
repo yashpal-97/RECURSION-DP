@@ -108,3 +108,54 @@ int minimumElements(vector<int> &num, int x)
         return dp[n-1][x];
     }
    }
+   
+   
+   //----------------------------------------------SPACE OPTIMIZATION------------------------------//
+   //---TC==O(N*TARGET)------SC==O(TARGET)----------------------------------------------------------//
+   #include <bits/stdc++.h> 
+
+int minimumElements(vector<int> &num, int x)
+{
+    // Write your code here.
+      int n=num.size();
+    vector<int>prev(x+1,0),curr(x+1,0);
+     for(int i=0;i<=x;i++){
+       if(i%num[0]==0){
+           prev[i]=i/num[0];
+       }
+       else{
+           prev[i]=1000000009;
+       }
+   }
+    
+    for(int i=1;i<n;i++){
+        for(int j=0;j<=x;j++){
+            int nottake=0+prev[j];
+    int take=1000000009;
+    if(j>=num[i]){
+        take=1+curr[j-num[i]];
+    }
+            curr[j]=min(take,nottake);
+        }
+        prev=curr;
+    }
+    if(prev[x]>=1000000009){
+        return -1;
+    }
+    else{
+        return prev[x];
+    }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
