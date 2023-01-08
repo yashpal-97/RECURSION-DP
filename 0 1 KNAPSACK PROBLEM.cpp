@@ -1,5 +1,5 @@
 //A THEIF IS ROBBING A STORE AND CAN CARRY A MAXIMUM WEIGHT OF W INTO HIS KNAPSACK. THERE ARE N ITEMS AND THE IT'H ITEM
-WEIGHS Wi AND IS OF VALUE Vi.
+//WEIGHS Wi AND IS OF VALUE Vi.
 
 //--------------------------RECURSION+MEMOIZATION------------------------------------//
 //--RTC==O(2^N)----RSC==O(N)-------------------------MTC==O(N*W)--MSC==O(N*M)+O(N)---//
